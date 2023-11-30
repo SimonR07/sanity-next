@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity'
 import {deskTool} from 'sanity/desk'
 import schemas from './sanity/schemas'
+import { vercelDeployTool } from 'sanity-plugin-vercel-deploy'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!
@@ -12,7 +13,7 @@ const config = defineConfig({
   title: 'My Personal Website',
   apiVersion,
   basePath:'/admin',
-  plugins: [deskTool()],
+  plugins: [deskTool(),vercelDeployTool()],
   schema: {types: schemas}
 
 })
