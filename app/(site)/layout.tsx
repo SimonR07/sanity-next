@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import '../globals.css'
+import { getPages } from '@/sanity/sanity-utils'
+import Link from 'next/link'
 
 
 export const metadata: Metadata = {
@@ -9,14 +11,40 @@ export const metadata: Metadata = {
 
 // export const dynamic = 'force-dynamic';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const pages = await getPages()
   return (
     <html lang="en">
-      <body className="max-w-4xl mx-auto py-10">{children}</body>
+      <body className="max-w-4xl mx-auto py-10">
+        <header className='flex items-center justify-between'>
+            <Link 
+              href="/" 
+              className="bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent text-lg font-bold"
+              >
+                The Darjeeling Limited
+            </Link>
+          <div className="flex items-center gap-5 text-sm text-gray-600">
+            {pages.map((page ) => {
+              return(
+                <Link 
+                  href={`/${page.slug}`} 
+                  key={page._id}
+                  className="mx-2">
+                    {page.title}
+                </Link>
+              )
+            }
+              
+            )}
+          </div>
+
+        </header>
+        <main>{children}</main>
+      </body>
     </html>
   )
 }
